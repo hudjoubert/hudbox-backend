@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+const port = 3333;
 
 const app = express();
 
@@ -17,14 +18,14 @@ io.on('connection', socket => {
 });
 
 mongoose.connect(
-  'mongodb+srv://hudson:hudbia2615@cluster0-exsan.mongodb.net/downbox?retryWrites=true',
+  'mongodb+srv://hudson:hudbia2615@cluster0-exsan.mongodb.net/hudbox?retryWrites=true',
   { useNewUrlParser: true },
 );
 
 app.use((req, res, next) => {
   req.io = io;
 
-  return next;
+  return next();
 });
 
 app.use(express.json());
@@ -33,4 +34,6 @@ app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')));
 
 app.use(require('./routes'));
 
-server.listen(process.env.PORT || 3333);
+server.listen(process.env.PORT || port, () =>
+  console.log(`Example app listening on port ${port}!`),
+);
