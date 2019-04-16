@@ -11,6 +11,9 @@ app.use(cors());
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
+const userBD = process.env.USER;
+const passBD = process.env.PASS;
+
 io.on('connection', socket => {
   socket.on('connectRoom', box => {
     socket.join(box);
@@ -18,7 +21,7 @@ io.on('connection', socket => {
 });
 
 mongoose.connect(
-  'mongodb+srv://hudson:hudbia2615@cluster0-exsan.mongodb.net/hudbox?retryWrites=true',
+  `mongodb+srv://${userBD}:${passBD}@cluster0-exsan.mongodb.net/hudbox?retryWrites=true`,
   { useNewUrlParser: true },
 );
 
